@@ -1,0 +1,35 @@
+﻿@page "/"
+@using TwilioConversationTest.Data
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+<button @onclick="GetAllTwilioCountryPhoneNumbers">
+    Get Numbers
+</button>
+
+<button @onclick="TwilioSMS"> Annoy Elie :P </button>
+@*
+<input type="text" @bind=@Number>*@
+@*<button @onclick="ProvisonPhoneNumber()">
+    Provison Phone Number
+</button>*@
+
+@*<div class="number-container">
+    <div>TEST</div>
+    <button @onclick="() => ProvisonPhoneNumber(+15005550006)"> Buy </button>
+</div>
+*@
+@if (result != null)
+{
+    @foreach (var item in result)
+    {
+        <div class="number-container">
+            <div>@item.PhoneNumber.ToString()</div>
+            <button @onclick="() => ProvisonPhoneNumber(item.PhoneNumber.ToString())"> Buy </button>
+        </div>
+    }
+}
+<p>@Result</p>
