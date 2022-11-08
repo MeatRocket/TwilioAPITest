@@ -25,38 +25,53 @@ namespace TwilioConversationTest.Pages
 {
     public partial class Index
     {
-        string s = "";
-        string s1 = "";
-        string s2 = "";
+        string s = "AC852206e13664b0d688a35c899509ba4e";
+        string s1 = "2b24e659c9817d3517064eb8c668bd43";
+        string s2 = "+18787686783";
 
-        string elieAc = "";
-        string elieAuth = "";
-        string elieNum = "";
 
-        string elieTestAc = "";
-        string elieTestAuth = "";
-        string elieTestNum = "";
+
+        string elieAc = "AC2915fe0e5baaf1e40c5beaefce66b1ec";
+        string elieAuth = "828130918559f61b11adaf51a10ffa0f";
+        string elieNum = "+18325725034";
+
+
+
+        string elieTestAc = "ACb030db9222e95964ffb27ca39ea7f447";
+        string elieTestAuth = "4e0c71bf50354a60b0ca7b7074e4d740";
+        string elieTestNum = "+18325725034";
 
         Twilio.Base.ResourceSet<LocalResource>? result { get; set; } = null;
         AvailablePhoneNumberCountryResource availablePhoneNumberCountry { get; set; } = null;
         public string? Number { get; set; } = "+16267204252";
+
+        // +15109440756
+        // +18325725034
+        public string? From { get; set; }
+        public string? To { get; set; }
+        public string? Message { get; set; }
         [Parameter]
         public string Result { get; set; }
 
         public string Contents { get; set; }
-        public void TwilioSMS()
+        public async Task TwilioSMSAsync()
         {
-            Result = "";
+            Result = "Loading...";
+            if (string.IsNullOrEmpty(From) || string.IsNullOrEmpty(To) || string.IsNullOrEmpty(Message))
+            {
+                Result = "Empty values!";
+                return;
+            }
             TwilioClient.Init(elieAc, elieAuth);
 
-            var message = MessageResource.Create(
-                body: "Kif Ken El Jumbo ?",
-                from: new Twilio.Types.PhoneNumber(elieNum),
-                to: new Twilio.Types.PhoneNumber("+96171237052")
+            var message = await MessageResource.CreateAsync(
+                body: Message,
+                from: new Twilio.Types.PhoneNumber(From),
+                to: new Twilio.Types.PhoneNumber(To)
             );
 
-
-            Result = message.Body + " status: " + message.Status;
+            Result = "Message Send Successful";
+            StateHasChanged();
             Console.WriteLine(message.Sid);
         }
 
